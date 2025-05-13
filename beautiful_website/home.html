@@ -22,8 +22,8 @@
 </head>
 <body>
     <header>
-        <div class="logo" tabindex="0" aria-label="Orumba North Logo">
-<img src="/static/images/orumba-north-logo.jpg" alt="Orumba North Logo" style="height: 120px; width: 120px; border-radius: 50%; vertical-align: middle; margin-right: 12px; object-fit: cover;" />
+        <div class="logo" tabindex="0" aria-label="Anambra State Logo">
+            <img src="/static/images/orumba-north-logo.jpg" alt="Anambra State Logo" style="height: 40px; width: auto;" />
             Orumba North
         </div>
         <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu" onclick="toggleMenu()">
@@ -34,7 +34,7 @@
             </svg>
         </button>
         <nav id="nav-menu" aria-label="Primary navigation" class="nav-menu">
-            <ul id="nav-list">
+            <ul>
                 <li><a href="#hero" onclick="closeMenu()">Home</a></li>
                 <li><a href="#features" onclick="closeMenu()">Features</a></li>
                 <li><a href="#about" onclick="closeMenu()">About</a></li>
@@ -42,72 +42,31 @@
                 <li><a href="/news-hub" onclick="closeMenu()">News Hub</a></li>
                 <li><a href="/history" onclick="closeMenu()">History</a></li>
                 <li><a href="/gallery" onclick="closeMenu()">Gallery</a></li>
-                <li id="nav-create-post" style="display:none;"><a href="/create-post" onclick="closeMenu()">Create Post</a></li>
-                <li id="nav-create-album" style="display:none;"><a href="/create-album" onclick="closeMenu()">Create Album</a></li>
+                <li><a href="/create-post" onclick="closeMenu()">Create Post</a></li>
+                <li><a href="/create-album" onclick="closeMenu()">Create Album</a></li>
                 <li><a href="/members" onclick="closeMenu()">Members</a></li>
-                <li id="nav-login"><a href="/login" onclick="closeMenu()">Login</a></li>
-                <li id="nav-register"><a href="/register" onclick="closeMenu()">Register</a></li>
-                <li id="nav-logout" style="display:none;"><a href="#" onclick="logout(); return false;">Logout</a></li>
             </ul>
         </nav>
     </header>
-    <script>
-        async function checkAuth() {
-            try {
-                const response = await fetch('/api/check-auth');
-                const data = await response.json();
-                if (data.authenticated) {
-                    document.getElementById('nav-create-post').style.display = 'list-item';
-                    document.getElementById('nav-create-album').style.display = 'list-item';
-                    document.getElementById('nav-login').style.display = 'none';
-                    document.getElementById('nav-register').style.display = 'none';
-                    document.getElementById('nav-logout').style.display = 'list-item';
-                } else {
-                    document.getElementById('nav-create-post').style.display = 'none';
-                    document.getElementById('nav-create-album').style.display = 'none';
-                    document.getElementById('nav-login').style.display = 'list-item';
-                    document.getElementById('nav-register').style.display = 'list-item';
-                    document.getElementById('nav-logout').style.display = 'none';
-                }
-            } catch (error) {
-                console.error('Error checking auth status:', error);
-            }
-        }
-
-        async function logout() {
-            try {
-                const response = await fetch('/api/logout', { method: 'POST' });
-                const data = await response.json();
-                if (data.status === 'success') {
-                    window.location.href = '/';
-                } else {
-                    alert('Logout failed.');
-                }
-            } catch (error) {
-                alert('An error occurred during logout.');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', checkAuth);
-    </script>
     <main>
         <section id="hero" class="hero" role="banner" aria-label="Hero section">
-            <div id="hero-background-slider" aria-hidden="true"></div>
+            <video autoplay muted loop id="background-video" aria-label="Background video showing grass field with wind and flowers">
+                <source src="https://cdn.videvo.net/videvo_files/video/free/2019-07/small_watermarked/190705_01_D_GrassField_4k_001_preview.webm" type="video/webm">
+                Your browser does not support the video tag.
+            </video>
             <h1>Welcome to Orumba North</h1>
-            <p>Meet the current Local Government Chairman,  Cap Bar Casmir-Nwafor Chinonso,and his all efficient team dedicated to the progress and prosperity of our community.</p>
+            <p>Meet the current Local Government Chairman, Mr. John Doe, dedicated to the progress and prosperity of our community.</p>
             <a href="/members" class="btn-primary" role="button">Take a Look</a>
             <style>
-                #hero-background-slider {
+                #background-video {
                     position: absolute;
                     top: 0;
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background-size: cover;
-                    background-position: center;
+                    object-fit: cover;
                     z-index: -1;
                     filter: brightness(0.6);
-                    transition: background-image 1s ease-in-out;
                 }
                 .hero {
                     position: relative;
@@ -118,8 +77,8 @@
                     align-items: center;
                     text-align: center;
                     padding: 4rem 2rem;
-                    color: white;
-                    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.85);
+                    color: black;
+                    text-shadow: none;
                 }
                 .hero h1 {
                     font-size: 3rem;
@@ -140,32 +99,13 @@
                     font-size: 1.1rem;
                     text-decoration: none;
                     transition: background-color 0.3s ease;
-                    box-shadow: 0 0 10px 3px rgba(230, 230, 0, 0.8);
                 }
                 .btn-primary:hover,
                 .btn-primary:focus {
                     background-color: #e6e600;
                     outline: none;
-                    box-shadow: 0 0 15px 5px rgba(230, 230, 0, 1);
                 }
             </style>
-            <script>
-                (function() {
-                    const images = [
-                        '/static/images/orumba-header-bakground-image3.jpg',
-                        '/static/images/orumba-header-bakground-image2.jpg',
-                        '/static/images/orumba-header-bakground-image.jpg'
-                    ];
-                    let currentIndex = 0;
-                    const slider = document.getElementById('hero-background-slider');
-                    function changeBackground() {
-                        slider.style.backgroundImage = `url('${images[currentIndex]}')`;
-                        currentIndex = (currentIndex + 1) % images.length;
-                    }
-                    changeBackground();
-                    setInterval(changeBackground, 5000);
-                })();
-            </script>
         </section>
         <section id="features" class="features" aria-label="Features section">
             <style>
@@ -252,31 +192,25 @@
                 <!-- Post snippets will be dynamically inserted here -->
             </div>
             <style>
-            #posts-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 1.5rem;
-                max-width: 900px;
-                margin: 0 auto;
-            }
             #posts-container > div {
                 background-color: #2c2c4a;
-                padding: 1rem 1.5rem;
+                padding: 1.5rem 2rem;
                 border-radius: 16px;
                 color: #eee;
                 box-shadow: 0 6px 20px rgba(44, 44, 74, 0.7);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                font-size: 1rem;
-                line-height: 1.4;
+                font-size: 1.1rem;
+                line-height: 1.6;
                 border-left: 6px solid #ffdd57;
                 cursor: pointer;
+                width: 280px;
+                height: 280px;
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: flex-start;
                 text-align: left;
-                height: auto;
             }
             #posts-container > div:hover,
             #posts-container > div:focus {
@@ -284,15 +218,9 @@
                 box-shadow: 0 12px 40px #ffff00cc;
                 outline: none;
             }
-            #posts-container > div p {
-                margin: 0.5rem 0 0 0;
-            }
-            #posts-container > div .post-meta {
-                font-size: 0.85rem;
-                color: #ffdd57;
-                font-weight: 600;
-                margin-bottom: 0.5rem;
-            }
+                #posts-container > div p {
+                    margin: 0;
+                }
             </style>
             <script>
                 async function fetchLatestPostSnippets() {
@@ -317,7 +245,7 @@
                         const snippetDiv = document.createElement('div');
                         snippetDiv.tabIndex = 0;
                         snippetDiv.setAttribute('role', 'link');
-                        snippetDiv.setAttribute('aria-label', `View full post by ${post.username} on ${new Date(post.published_at).toLocaleString()}`);
+                        snippetDiv.setAttribute('aria-label', `View full post number ${post.id}`);
                         snippetDiv.addEventListener('click', () => {
                             window.location.href = `/news-hub#post-${post.id}`;
                         });
@@ -328,10 +256,7 @@
                         });
 
                         const snippetText = post.content.length > 100 ? post.content.substring(0, 100) + '...' : post.content;
-                        snippetDiv.innerHTML = `
-                            <div class="post-meta">Posted by ${post.username} on ${new Date(post.published_at).toLocaleString()}</div>
-                            <p>${snippetText}</p>
-                        `;
+                        snippetDiv.innerHTML = `<p>${snippetText}</p>`;
                         container.appendChild(snippetDiv);
                     });
                 }

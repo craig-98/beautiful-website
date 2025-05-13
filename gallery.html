@@ -129,6 +129,7 @@
       try {
         const response = await fetch('/api/albums');
         const data = await response.json();
+        console.log('Fetched albums data:', data); // Debug log
         if (data.status === 'success') {
           renderAlbums(data.albums);
         } else {
@@ -138,6 +139,42 @@
       } catch (error) {
         console.error('Error fetching albums:', error);
         document.getElementById('albumsContainer').innerHTML = '<p style="text-align:center; color:#999;">Error loading albums.</p>';
+      }
+    }
+
+    class Carousel {
+      constructor(slidesDiv, prevBtn, nextBtn, totalSlides) {
+        this.slidesDiv = slidesDiv;
+        this.prevBtn = prevBtn;
+        this.nextBtn = nextBtn;
+        this.totalSlides = totalSlides;
+        this.currentIndex = 0;
+
+        this.updateSlider = this.updateSlider.bind(this);
+        this.prev = this.prev.bind(this);
+        this.next = this.next.bind(this);
+
+        this.prevBtn.addEventListener('click', this.prev);
+        this.nextBtn.addEventListener('click', this.next);
+
+        // Auto slide every 3 seconds
+        this.intervalId = setInterval(this.next, 3000);
+
+        this.updateSlider();
+      }
+
+      updateSlider() {
+        this.slidesDiv.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+      }
+
+      prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+        this.updateSlider();
+      }
+
+      next() {
+        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+        this.updateSlider();
       }
     }
 
@@ -163,12 +200,16 @@
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = post.content;
         const imgTag = tempDiv.querySelector('img');
+        console.log('Post content:', post.content); // Debug log
+        console.log('Extracted imgTag:', imgTag); // Debug log
 
         if (imgTag) {
           const img = document.createElement('img');
           img.src = imgTag.src;
           img.alt = post.caption || 'Album image';
           slide.appendChild(img);
+        } else {
+          console.warn('No image found in post content:', post.content);
         }
 
         const caption = document.createElement('div');
@@ -197,24 +238,8 @@
 
       albumDiv.appendChild(navButtons);
 
-      let currentIndex = 0;
-      const totalSlides = album.posts.length;
-
-      function updateSlider() {
-        slidesDiv.style.transform = `translateX(-${currentIndex * 100}%)`;
-      }
-
-      prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        updateSlider();
-      });
-
-      nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
-      });
-
-      updateSlider();
+      // Initialize carousel instance for this album with nav buttons
+      new Carousel(slidesDiv, prevBtn, nextBtn, album.posts.length);
 
       return albumDiv;
     }
@@ -236,3 +261,4 @@
   </script>
 </body>
 </html>
+</create_file>
