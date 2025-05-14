@@ -129,9 +129,9 @@ def serve_create_post():
 def serve_create_album():
     return send_file(os.path.join(BASE_DIR, 'create_album.html'))
 
-@app.route('/api/posts', methods=['GET', 'POST'])
+@app.route('/api/posts', methods=['GET', 'POST'], endpoint='api_posts')
 @login_required
-def api_posts():
+def api_posts_handler():
     global posts
     if request.method == 'POST':
         data = request.get_json()
