@@ -251,27 +251,14 @@ def serve_members():
 def serve_news_hub():
     return send_file(os.path.join(BASE_DIR, 'news_hub.html'))
 
-if __name__ == '__main__':
-    app.run(debug=True)
+import os
 
-@app.route('/api/posts', methods=['GET', 'POST'])
-def api_posts():
-    global posts
-    if request.method == 'POST':
-        data = request.get_json()
-        content = data.get('content', '')
-        if content:
-            post = {
-                'id': len(posts) + 1,
-                'content': content
-            }
-            posts.append(post)
-            save_posts()
-            return jsonify({'status': 'success', 'post': post}), 201
-        else:
-            return jsonify({'status': 'error', 'message': 'Content is required'}), 400
-    else:
-        return jsonify({'status': 'success', 'posts': posts})
+if __name__ == '__main__':
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
+
+# Removed duplicate route definition for /api/posts to fix AssertionError
 
 @app.route('/api/posts/<int:post_id>', methods=['GET'])
 def get_post(post_id):
@@ -334,4 +321,6 @@ def debug_albums():
     return jsonify({'status': 'success', 'albums': albums})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
