@@ -4,6 +4,118 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gallery Albums Carousel</title>
+  <link rel="stylesheet" href="/static/futuristic-theme.css" />
+</head>
+<body>
+{% include '_header.html' %}
+  <h1>Gallery Albums Carousel</h1>
+  <div class="albums-container" id="albumsContainer">
+    <!-- Albums will be rendered here -->
+  </div>
+
+  <script>
+    async function fetchAlbums() {
+      try {
+        const response = await fetch('/api/albums');
+        const data = await response.json();
+        console.log('Fetched albums data:', data); // Debug log
+        if (data.status === 'success') {
+          renderAlbums(data.albums);
+        } else {
+          console.error('Failed to load albums:', data.message);
+          document.getElementById('albumsContainer').innerHTML = '<p style="text-align:center; color:#999;">Failed to load albums.</p>';
+        }
+      } catch (error) {
+        console.error('Error fetching albums:', error);
+        document.getElementById('albumsContainer').innerHTML = '<p style="text-align:center; color:#999;">Error loading albums.</p>';
+      }
+    }
+
+    class Carousel {
+      constructor(slidesDiv, prevBtn, nextBtn, totalSlides) {
+        this.slidesDiv = slidesDiv;
+        this.prevBtn = prevBtn;
+        this.nextBtn = nextBtn;
+        this.totalSlides = totalSlides;
+        this.currentIndex = 0;
+
+        this.updateSlider = this.updateSlider.bind(this);
+        this.prev = this.prev.bind(this);
+        this.next = this.next.bind(this);
+
+        this.prevBtn.addEventListener('click', this.prev);
+        this.nextBtn.addEventListener('click', this.next);
+
+        // Auto slide every 3 seconds
+        this.intervalId = setInterval(this.next, 3000);
+
+        this.updateSlider();
+      }
+
+      updateSlider() {
+        this.slidesDiv.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+      }
+
+      prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+        this.updateSlider();
+      }
+
+      next() {
+        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+        this.updateSlider();
+      }
+    }
+
+    function createAlbumElement(album) {
+      const albumDiv = document.createElement('div');
+      albumDiv.className = 'album';
+
+      const header = document.createElement('div');
+      header.className = 'album-header';
+      header.textContent = `Album #${album.id}`;
+      albumDiv.appendChild(header);
+
+      const carouselContainer = document.createElement('div');
+      carouselContainer.className = 'carousel-container';
+
+      const slidesDiv = document.createElement('div');
+      slidesDiv.className = 'carousel-slides';
+
+      album.posts.forEach(post => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = post.content;
+        const imgTag = tempDiv.querySelector('img');
+        console.log('Post content:', post.content); // Debug log
+        console.log('Extracted imgTag:', imgTag); // Debug log
+
+        if (imgTag) {
+          const img = document.createElement('img');
+          img.src = imgTag.src;
+          img.alt = post.caption || 'Album image';
+          slide.appendChild(img);
+        } else {
+          console.warn('No image found in post content:', post.content);
+        }
+
+        const caption = document.createElement('div');
+        caption.className = 'caption';
+        caption.textContent = post.caption || '';
+        slide.appendChild(caption);
+
+        slidesDiv.appendChild<edit_file>
+<path>gallery.html</path>
+<content>
+<<<<<<< SEARCH
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery Albums Carousel</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -119,6 +231,271 @@
   </style>
 </head>
 <body>
+  <h1>Gallery Albums Carousel</h1>
+  <div class="albums-container" id="albumsContainer">
+    <!-- Albums will be rendered here -->
+  </div>
+
+  <script>
+    async function fetchAlbums() {
+      try {
+        const response = await fetch('/api/albums');
+        const data = await response.json();
+        console.log('Fetched albums data:', data); // Debug log
+        if (data.status === 'success') {
+          renderAlbums(data.albums);
+        } else {
+          console.error('Failed to load albums:', data.message);
+          document.getElementById('albumsContainer').innerHTML = '<p style="text-align:center; color:#999;">Failed to load albums.</p>';
+        }
+      } catch (error) {
+        console.error('Error fetching albums:', error);
+        document.getElementById('albumsContainer').innerHTML = '<p style="text-align:center; color:#999;">Error loading albums.</p>';
+      }
+    }
+
+    class Carousel {
+      constructor(slidesDiv, prevBtn, nextBtn, totalSlides) {
+        this.slidesDiv = slidesDiv;
+        this.prevBtn = prevBtn;
+        this.nextBtn = nextBtn;
+        this.totalSlides = totalSlides;
+        this.currentIndex = 0;
+
+        this.updateSlider = this.updateSlider.bind(this);
+        this.prev = this.prev.bind(this);
+        this.next = this.next.bind(this);
+
+        this.prevBtn.addEventListener('click', this.prev);
+        this.nextBtn.addEventListener('click', this.next);
+
+        // Auto slide every 3 seconds
+        this.intervalId = setInterval(this.next, 3000);
+
+        this.updateSlider();
+      }
+
+      updateSlider() {
+        this.slidesDiv.style.transform = `translateX(-${this.currentIndex * 100}%)`;
+      }
+
+      prev() {
+        this.currentIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+        this.updateSlider();
+      }
+
+      next() {
+        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+        this.updateSlider();
+      }
+    }
+
+    function createAlbumElement(album) {
+      const albumDiv = document.createElement('div');
+      albumDiv.className = 'album';
+
+      const header = document.createElement('div');
+      header.className = 'album-header';
+      header.textContent = `Album #${album.id}`;
+      albumDiv.appendChild(header);
+
+      const carouselContainer = document.createElement('div');
+      carouselContainer.className = 'carousel-container';
+
+      const slidesDiv = document.createElement('div');
+      slidesDiv.className = 'carousel-slides';
+
+      album.posts.forEach(post => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = post.content;
+        const imgTag = tempDiv.querySelector('img');
+        console.log('Post content:', post.content); // Debug log
+        console.log('Extracted imgTag:', imgTag); // Debug log
+
+        if (imgTag) {
+          const img = document.createElement('img');
+          img.src = imgTag.src;
+          img.alt = post.caption || 'Album image';
+          slide.appendChild(img);
+        } else {
+          console.warn('No image found in post content:', post.content);
+        }
+
+        const caption = document.createElement('div');
+        caption.className = 'caption';
+        caption.textContent = post.caption || '';
+        slide.appendChild(caption);
+
+        slidesDiv.appendChild(slide);
+      });
+
+      carouselContainer.appendChild(slidesDiv);
+      albumDiv.appendChild(carouselContainer);
+
+      const navButtons = document.createElement('div');
+      navButtons.className = 'nav-buttons';
+
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'nav-button';
+      prevBtn.textContent = '‹';
+      navButtons.appendChild(prevBtn);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'nav-button';
+      nextBtn.textContent = '›';
+      navButtons.appendChild(nextBtn);
+
+      albumDiv.appendChild(navButtons);
+
+      // Initialize carousel instance for this album with nav buttons
+      new Carousel(slidesDiv, prevBtn, nextBtn, album.posts.length);
+
+      return albumDiv;
+    }
+
+    function renderAlbums(albums) {
+      const container = document.getElementById('albumsContainer');
+      container.innerHTML = '';
+      if (albums.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#999;">No albums available yet.</p>';
+        return;
+      }
+      albums.forEach(album => {
+        const albumElement = createAlbumElement(album);
+        container.appendChild(albumElement);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', fetchAlbums);
+  </script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery Albums Carousel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-bottom: 2rem;
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: #222;
+    }
+    .albums-container {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .album {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .album-header {
+      background: #007acc;
+      color: white;
+      padding: 1rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-align: center;
+      user-select: none;
+    }
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+      background: #f0f0f0;
+    }
+    .carousel-slides {
+      display: flex;
+      transition: transform 0.4s ease-in-out;
+      height: 100%;
+      width: 100%;
+    }
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      box-sizing: border-box;
+    }
+    .carousel-slide img {
+      max-height: 180px;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .caption {
+      padding: 0 1rem;
+      font-size: 1rem;
+      color: #555;
+      min-height: 2rem;
+      text-align: center;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      background: #e6e6e6;
+    }
+    .nav-button {
+      background: #007acc;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
+    }
+    .nav-button:hover {
+      background: #005fa3;
+    }
+    @media (max-width: 768px) {
+      .albums-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .album {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+{% include '_header.html' %}
   <h1>Gallery Albums Carousel</h1>
   <div class="albums-container" id="albumsContainer">
     <!-- Albums will be rendered here -->

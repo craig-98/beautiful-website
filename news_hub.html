@@ -5,75 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>News Hub - All Posts</title>
   <link rel="stylesheet" href="/static/futuristic-theme.css" />
-  <style>
-    body {
-      background-color: #f9f9f9;
-      color: #333;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 2rem;
-      max-width: 1100px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    h1 {
-      text-align: center;
-      color: #ffdd57;
-      margin-bottom: 1.5rem;
-    }
-    #searchBar {
-      width: 120%;
-      padding: 0.75rem 1rem;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 10px #ffdd57;
-      background-color: #2c2c4a;
-      color: #eee;
-      margin-left: auto;
-      margin-right: 0;
-    }
-    #postsContainer {
-      max-width: 700px;
-      margin-right: auto;
-      margin-left: 0;
-    }
-    #postsContainer > div {
-      background-color: #2c2c4a;
-      padding: 1.5rem 2rem;
-      border-radius: 16px;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 6px 20px rgba(44, 44, 74, 0.7);
-      transition: box-shadow 0.3s ease;
-      border-left: 6px solid #ffdd57;
-      border-bottom: 6px solid #ffdd57;
-    }
-    #postsContainer > div:hover {
-      box-shadow: 0 12px 40px #ffff00cc;
-    }
-    #postsContainer > div h2 {
-      margin-top: 0;
-      color: #ffdd57;
-    }
-    #postsContainer > div p {
-      white-space: pre-wrap;
-      line-height: 1.6;
-      font-size: 1.3rem;
-    }
-    a.back-link {
-      display: inline-block;
-      margin-bottom: 1rem;
-      color: #ffdd57;
-      text-decoration: none;
-      font-weight: 700;
-    }
-    a.back-link:hover {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
+{% include '_header.html' %}
   <h1>News Hub - All Posts</h1>
   <div id="banner" style="background-color: green; color: white; font-weight: bold; text-align: center; padding: 0.5rem; margin-bottom: 1rem; display: none;">
     Orumba North is the Future
