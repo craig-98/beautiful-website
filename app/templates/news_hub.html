@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>News Hub - All Posts</title>
+  <link rel="stylesheet" href="/static/futuristic-theme.css" />
+  <style>
+    /* Minimal styles for news hub page */
+    body.news-hub {
+      margin: 0;
+      padding: 1rem;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+    #postsContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .post-card {
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1rem;
+      word-wrap: break-word;
+    }
+    .post-meta {
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+    .search-bar {
+      width: 100%;
+      max-width: 300px;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body class="news-hub">
+  <input type="text" id="searchBar" placeholder="Search posts..." aria-label="Search posts" class="search-bar" />
+  <div id="postsContainer" aria-live="polite" aria-atomic="true">
+    <!-- Posts will be rendered here -->
+  </div>
+  <script>
+    let allPosts = [];
+
+    async function fetchPosts() {
+      try {
+        const response = await fetch('/api/public/posts');
+        const data = await response.json();
+        if (data.status === 'success') {
+          allPosts = data.posts;
+          renderPosts(allPosts);
+        } else {
+          document.getElementById('postsContainer').innerHTML = '<p class="no-posts">Failed to load posts.</p>';
+        }
+      } catch (error) {
+        document.getElementById('postsContainer').innerHTML = '<p class="no-posts">Error loading posts.</p>';
+      }
+    }
+
+    function renderPosts(posts) {
+      const container = document.getElementById('postsContainer');
+      container.innerHTML = '';
+      if (posts.length === 0) {
+        container.innerHTML = '<p class="no-posts">No posts found.</p>';
+        return;
+      }
+      posts.forEach(post => {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'post-card';
+
+        const postMeta = document.createElement('div');
+        postMeta.className = 'post-meta';
+        postMeta.textContent = `Posted by ${post.username} on ${new Date(post.published_at).toLocaleString()}`;
+        postDiv.appendChild(postMeta);
+
+        const content = document.createElement('p');
+        content.innerHTML = post.content;
+        postDiv.appendChild(content);
+
+        container.appendChild(postDiv);
+      });
+    }
+
+    function filterPosts(query) {
+      const filtered = allPosts.filter(post => post.content.toLowerCase().includes(query.toLowerCase()));
+      renderPosts(filtered);
+    }
+
+    document.getElementById('searchBar').addEventListener('input', (e) => {
+      filterPosts(e.target.value);
+    });
+
+    window.addEventListener('DOMContentLoaded', fetchPosts);
+  </script>
+</body>
+</html>

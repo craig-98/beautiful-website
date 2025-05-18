@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request, jsonify, send_file, session, redirect, url_for
+from flask import Flask, send_from_directory, request, jsonify, send_file, session, redirect, url_for, render_template
 import os
 import json
 import hashlib
@@ -64,15 +64,15 @@ HTML_DIR = os.path.join(BASE_DIR, 'beautiful_website')
 
 @app.route('/')
 def serve_home():
-    return send_file(os.path.join(BASE_DIR, 'home.html'))
+    return render_template('home.html')
 
 @app.route('/login', methods=['GET'])
 def serve_login():
-    return send_file(os.path.join(BASE_DIR, 'login.html'))
+    return render_template('login.html')
 
 @app.route('/register', methods=['GET'])
 def serve_register():
-    return send_file(os.path.join(BASE_DIR, 'register.html'))
+    return render_template('register.html')
 
 @app.route('/logout')
 def logout():
@@ -122,12 +122,12 @@ def api_check_auth():
 @app.route('/create-post')
 @login_required
 def serve_create_post():
-    return send_file(os.path.join(BASE_DIR, 'create_post.html'))
+    return render_template('create_post.html')
 
 @app.route('/create-album')
 @login_required
 def serve_create_album():
-    return send_file(os.path.join(BASE_DIR, 'create_album.html'))
+    return render_template('create_album.html')
 
 @app.route('/api/posts', methods=['GET', 'POST'], endpoint='api_posts')
 @login_required
@@ -212,19 +212,19 @@ def debug_albums():
 
 @app.route('/history')
 def serve_history():
-    return send_file(os.path.join(BASE_DIR, 'history.html'))
+    return render_template('history.html')
 
 @app.route('/gallery')
 def serve_gallery():
-    return send_file(os.path.join(BASE_DIR, 'gallery.html'))
+    return render_template('gallery.html')
 
 @app.route('/members')
 def serve_members():
-    return send_file(os.path.join(BASE_DIR, 'members.html'))
+    return render_template('members.html')
 
 @app.route('/news-hub')
 def serve_news_hub():
-    return send_file(os.path.join(BASE_DIR, 'news_hub.html'))
+    return render_template('news_hub.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

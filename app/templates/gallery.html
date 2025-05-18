@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery</title>
+  <link rel="stylesheet" href="/static/futuristic-theme.css" />
+  <style>
+    /* Minimal styles for gallery page */
+    body.gallery {
+      margin: 0;
+      padding: 1rem;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+    #galleryContainer {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .gallery-item {
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1rem;
+      word-wrap: break-word;
+    }
+    .gallery-meta {
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body class="gallery">
+  <main class="section">
+    <div id="galleryContainer" aria-live="polite" aria-atomic="true">
+      <!-- Gallery items will be rendered here -->
+    </div>
+  </main>
+  <script>
+    async function fetchGallery() {
+      try {
+        const response = await fetch('/api/albums');
+        const data = await response.json();
+        if (data.status === 'success') {
+          renderGallery(data.albums);
+        } else {
+          document.getElementById('galleryContainer').innerHTML = '<p class="no-items">Failed to load gallery.</p>';
+        }
+      } catch (error) {
+        document.getElementById('galleryContainer').innerHTML = '<p class="no-items">Error loading gallery.</p>';
+      }
+    }
+
+    function renderGallery(albums) {
+      const container = document.getElementById('galleryContainer');
+      container.innerHTML = '';
+      if (albums.length === 0) {
+        container.innerHTML = '<p class="no-items">No albums found.</p>';
+        return;
+      }
+      albums.forEach(album => {
+        const albumDiv = document.createElement('div');
+        albumDiv.className = 'gallery-item';
+
+        const albumMeta = document.createElement('div');
+        albumMeta.className = 'gallery-meta';
+        albumMeta.textContent = `Album ID: ${album.id}`;
+        albumDiv.appendChild(albumMeta);
+
+        album.posts.forEach(post => {
+          const postContent = document.createElement('p');
+          postContent.innerHTML = post.content;
+          albumDiv.appendChild(postContent);
+          if (post.caption) {
+            const caption = document.createElement('p');
+            caption.style.fontStyle = 'italic';
+            caption.textContent = post.caption;
+            albumDiv.appendChild(caption);
+          }
+        });
+
+        container.appendChild(albumDiv);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', fetchGallery);
+  </script>
+</body>
+</html>
