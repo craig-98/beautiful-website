@@ -18,9 +18,9 @@
             <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
             <li><a href="/news-hub" onclick="closeMenu()">News Hub</a></li>
             <li><a href="/history" onclick="closeMenu()">History</a></li>
-            <li><a href="/gallery" onclick="closeMenu()">Gallery</a></li>
+            <!-- Gallery link removed -->
             <li id="nav-create-post" style="display:none;"><a href="/create-post" onclick="closeMenu()">Create Post</a></li>
-            <li id="nav-create-album" style="display:none;"><a href="/create-album" onclick="closeMenu()">Create Album</a></li>
+            <!-- Create Album link removed -->
             <li><a href="/members" onclick="closeMenu()">Members</a></li>
             <li id="nav-login"><a href="/login" onclick="closeMenu()">Login</a></li>
             <li id="nav-register"><a href="/register" onclick="closeMenu()">Register</a></li>
@@ -45,13 +45,13 @@
             const data = await response.json();
             if (data.authenticated) {
                 document.getElementById('nav-create-post').style.display = 'list-item';
-                document.getElementById('nav-create-album').style.display = 'list-item';
+                // Create Album display removed
                 document.getElementById('nav-login').style.display = 'none';
                 document.getElementById('nav-register').style.display = 'none';
                 document.getElementById('nav-logout').style.display = 'list-item';
             } else {
                 document.getElementById('nav-create-post').style.display = 'none';
-                document.getElementById('nav-create-album').style.display = 'none';
+                // Create Album display removed
                 document.getElementById('nav-login').style.display = 'list-item';
                 document.getElementById('nav-register').style.display = 'list-item';
                 document.getElementById('nav-logout').style.display = 'none';

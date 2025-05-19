@@ -6,43 +6,33 @@
   <title>News Hub - All Posts</title>
   <link rel="stylesheet" href="/static/futuristic-theme.css" />
   <style>
-    /* Minimal styles for news hub page */
-    body.news-hub {
-      margin: 0;
-      padding: 1rem;
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-    }
-    #postsContainer {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-    .post-card {
-      background: white;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 1rem;
-      word-wrap: break-word;
-    }
-    .post-meta {
-      font-size: 0.8rem;
-      color: #666;
-      margin-bottom: 0.5rem;
-    }
-    .search-bar {
-      width: 100%;
-      max-width: 300px;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
   </style>
 </head>
-<body class="news-hub">
-  <input type="text" id="searchBar" placeholder="Search posts..." aria-label="Search posts" class="search-bar" />
+<body>
+  <header>
+    <nav>
+      <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">&#9776;</button>
+      <ul id="nav-menu" class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/members">Members</a></li>
+        <li><a href="/news-hub">News Hub</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/history">History</a></li>
+        <li><a href="/login">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="news-hub-container">
+    <div class="posts-section">
+  <div id="postsContainer" aria-live="polite" aria-atomic="true">
+    <!-- Posts will be rendered here -->
+  </div>
+    </div>
+    <aside class="search-section">
+      <input type="text" id="searchBar" placeholder="Search posts..." aria-label="Search posts" class="search-bar" />
+      <div id="googleAds">Google Ads Placeholder</div>
+    </aside>
+  </div>
   <div id="postsContainer" aria-live="polite" aria-atomic="true">
     <!-- Posts will be rendered here -->
   </div>
@@ -95,6 +85,17 @@
 
     document.getElementById('searchBar').addEventListener('input', (e) => {
       filterPosts(e.target.value);
+    });
+
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+      hamburger.setAttribute('aria-expanded', !expanded);
+      navMenu.classList.toggle('active');
+      document.querySelector('nav').classList.toggle('active');
     });
 
     window.addEventListener('DOMContentLoaded', fetchPosts);

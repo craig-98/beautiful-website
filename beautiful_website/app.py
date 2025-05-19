@@ -124,10 +124,16 @@ def api_check_auth():
 def serve_create_post():
     return render_template('create_post.html')
 
-@app.route('/create-album')
-@login_required
-def serve_create_album():
-    return render_template('create_album.html')
+# Removed create-album and gallery routes as per user request
+
+# @app.route('/create-album')
+# @login_required
+# def serve_create_album():
+#     return render_template('create_album.html')
+
+# @app.route('/gallery')
+# def serve_gallery():
+#     return render_template('gallery.html')
 
 @app.route('/api/posts', methods=['GET', 'POST'], endpoint='api_posts')
 @login_required
@@ -169,37 +175,6 @@ def search_posts():
     filtered = [p for p in posts if query in p['content'].lower()]
     return jsonify({'status': 'success', 'posts': filtered})
 
-@app.route('/api/albums', methods=['GET', 'POST'])
-@login_required
-def api_albums():
-    global albums
-    if request.method == 'POST':
-        data = request.get_json()
-        album_posts = data.get('posts', [])
-        if not album_posts or len(album_posts) == 0:
-            return jsonify({'status': 'error', 'message': 'Album must contain at least one post'}), 400
-        if len(album_posts) > 10:
-            return jsonify({'status': 'error', 'message': 'Album cannot contain more than 10 posts'}), 400
-        album_id = len(albums) + 1
-        album = {
-            'id': album_id,
-            'posts': []
-        }
-        for idx, post in enumerate(album_posts):
-            content = post.get('content', '')
-            caption = post.get('caption', '')
-            if not content:
-                return jsonify({'status': 'error', 'message': f'Post {idx+1} content is required'}), 400
-            album['posts'].append({
-                'id': idx + 1,
-                'content': content,
-                'caption': caption
-            })
-        albums.append(album)
-        return jsonify({'status': 'success', 'album': album}), 201
-    else:
-        return jsonify({'status': 'success', 'albums': albums})
-
 @app.route('/list-static')
 def list_static():
     files = os.listdir(app.static_folder)
@@ -213,10 +188,6 @@ def debug_albums():
 @app.route('/history')
 def serve_history():
     return render_template('history.html')
-
-@app.route('/gallery')
-def serve_gallery():
-    return render_template('gallery.html')
 
 @app.route('/members')
 def serve_members():

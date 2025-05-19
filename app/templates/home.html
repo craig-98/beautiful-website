@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Rebellion Inspired Landing Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='futuristic-theme.css') }}" />
+    <link rel="stylesheet" href="/static/futuristic-theme.css" />
     <!-- Removed original styles.css to avoid conflict with futuristic theme -->
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" /> -->
+    <!-- <link rel="stylesheet" href="/static/styles.css" /> -->
     <script>
         // Hamburger menu toggle
         function toggleMenu() {
@@ -21,81 +21,13 @@
     </script>
 </head>
 <body>
-    <header>
-        <div class="logo" tabindex="0" aria-label="Orumba North Logo">
-            <img src="{{ url_for('static', filename='images/orumba-north-logo.jpg') }}" alt="Orumba North Logo" style="height: 120px; width: 120px; border-radius: 50%; vertical-align: middle; margin-right: 12px; object-fit: cover;" />
-            Orumba North
-        </div>
-        <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu" onclick="toggleMenu()">
-            <svg width="30" height="30" viewBox="0 0 100 80" fill="#ffdd57" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <rect width="100" height="15"></rect>
-                <rect y="30" width="100" height="15"></rect>
-                <rect y="60" width="100" height="15"></rect>
-            </svg>
-        </button>
-        <nav id="nav-menu" aria-label="Primary navigation" class="nav-menu">
-            <ul id="nav-list">
-                <li><a href="#hero" onclick="closeMenu()">Home</a></li>
-                <li><a href="#features" onclick="closeMenu()">Features</a></li>
-                <li><a href="#about" onclick="closeMenu()">About</a></li>
-                <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
-                <li><a href="{{ url_for('news_hub') }}" onclick="closeMenu()">News Hub</a></li>
-                <li><a href="{{ url_for('history') }}" onclick="closeMenu()">History</a></li>
-                <li><a href="{{ url_for('gallery') }}" onclick="closeMenu()">Gallery</a></li>
-                <li id="nav-create-post" style="display:none;"><a href="{{ url_for('create_post') }}" onclick="closeMenu()">Create Post</a></li>
-                <li id="nav-create-album" style="display:none;"><a href="{{ url_for('create_album') }}" onclick="closeMenu()">Create Album</a></li>
-                <li><a href="{{ url_for('members') }}" onclick="closeMenu()">Members</a></li>
-                <li id="nav-login"><a href="{{ url_for('login') }}" onclick="closeMenu()">Login</a></li>
-                <li id="nav-register"><a href="{{ url_for('register') }}" onclick="closeMenu()">Register</a></li>
-                <li id="nav-logout" style="display:none;"><a href="#" onclick="logout(); return false;">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-    <script>
-        async function checkAuth() {
-            try {
-                const response = await fetch('{{ url_for("api_check_auth") }}');
-                const data = await response.json();
-                if (data.authenticated) {
-                    document.getElementById('nav-create-post').style.display = 'list-item';
-                    document.getElementById('nav-create-album').style.display = 'list-item';
-                    document.getElementById('nav-login').style.display = 'none';
-                    document.getElementById('nav-register').style.display = 'none';
-                    document.getElementById('nav-logout').style.display = 'list-item';
-                } else {
-                    document.getElementById('nav-create-post').style.display = 'none';
-                    document.getElementById('nav-create-album').style.display = 'none';
-                    document.getElementById('nav-login').style.display = 'list-item';
-                    document.getElementById('nav-register').style.display = 'list-item';
-                    document.getElementById('nav-logout').style.display = 'none';
-                }
-            } catch (error) {
-                console.error('Error checking auth status:', error);
-            }
-        }
-
-        async function logout() {
-            try {
-                const response = await fetch('{{ url_for("api_logout") }}', { method: 'POST' });
-                const data = await response.json();
-                if (data.status === 'success') {
-                    window.location.href = '{{ url_for("home") }}';
-                } else {
-                    alert('Logout failed.');
-                }
-            } catch (error) {
-                alert('An error occurred during logout.');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', checkAuth);
-    </script>
+{% include '_header.html' %}
     <main>
         <section id="hero" class="hero" role="banner" aria-label="Hero section">
             <div id="hero-background-slider" aria-hidden="true"></div>
             <h1>Welcome to Orumba North</h1>
-            <p>Meet the current Local Government Chairman, Cap Bar Casmir-Nwafor Chinonso, and his all efficient team dedicated to the progress and prosperity of our community.</p>
-            <a href="{{ url_for('members') }}" class="btn-primary" role="button">Take a Look</a>
+            <p>Meet the current Local Government Chairman,  Cap Bar Casmir-Nwafor Chinonso,and his all efficient team dedicated to the progress and prosperity of our community.</p>
+            <a href="/members" class="btn-primary" role="button">Take a Look</a>
             <style>
                 #hero-background-slider {
                     position: absolute;
@@ -152,9 +84,9 @@
             <script>
                 (function() {
                     const images = [
-                        '{{ url_for("static", filename="images/orumba-header-bakground-image3.jpg") }}',
-                        '{{ url_for("static", filename="images/orumba-header-bakground-image2.jpg") }}',
-                        '{{ url_for("static", filename="images/orumba-header-bakground-image.jpg") }}'
+                        '/static/images/orumba-header-bakground-image3.jpg',
+                        '/static/images/orumba-header-bakground-image2.jpg',
+                        '/static/images/orumba-header-bakground-image.jpg'
                     ];
                     let currentIndex = 0;
                     const slider = document.getElementById('hero-background-slider');
@@ -297,7 +229,7 @@
             <script>
                 async function fetchLatestPostSnippets() {
                     try {
-                        const response = await fetch('{{ url_for("api_posts") }}');
+                        const response = await fetch('/api/posts');
                         const data = await response.json();
                         if (data.status === 'success') {
                             const posts = data.posts.slice(-6).reverse();

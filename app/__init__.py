@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_file, jsonify, request, session, redirect, url_for
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 from functools import wraps
 import json
 import hashlib
@@ -9,7 +9,10 @@ users = []
 albums = []
 
 def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=True, static_folder='static', static_url_path='/static')
+    # Fix static folder path to point to top-level static directory
+    static_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'static')
+    template_folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+    app = Flask(__name__, instance_relative_config=True, static_folder=static_folder_path, static_url_path='/static', template_folder=template_folder_path)
 
     # Load default config
     app.config.from_mapping(
@@ -80,15 +83,38 @@ def create_app(test_config=None):
 
     @app.route('/')
     def serve_home():
-        return send_file(os.path.join(app.root_path, 'templates', 'home.html'))
+        return render_template('home.html')
+
+    @app.route('/news-hub')
+    def news_hub():
+        return render_template('news_hub.html')
+
+    @app.route('/history')
+    def history():
+        return render_template('history.html')
+
+    # Removed gallery and create_album routes as per user request
+
+    # @app.route('/gallery')
+    # def gallery():
+    #     return render_template('gallery.html')
+
+    # @app.route('/create-album')
+    # @login_required
+    # def serve_create_album():
+    #     return render_template('create_album.html')
+
+    @app.route('/members')
+    def members():
+        return render_template('members.html')
 
     @app.route('/login', methods=['GET'])
     def serve_login():
-        return send_file(os.path.join(app.root_path, 'templates', 'login.html'))
+        return render_template('login.html')
 
     @app.route('/register', methods=['GET'])
     def serve_register():
-        return send_file(os.path.join(app.root_path, 'templates', 'register.html'))
+        return render_template('register.html')
 
     @app.route('/logout')
     def logout():
@@ -138,92 +164,6 @@ def create_app(test_config=None):
     @app.route('/create-post')
     @login_required
     def serve_create_post():
-        return send_file(os.path.join(app.root_path, 'templates', 'create_post.html'))
-
-    @app.route('/create-album')
-    @login_required
-    def serve_create_album():
-        return send_file(os.path.join(app.root_path, 'templates', 'create_album.html'))
-
-    @app.route('/api/posts', methods=['GET', 'POST'])
-    @login_required
-    def api_posts():
-        global posts
-        if request.method == 'POST':
-            data = request.get_json()
-            content = data.get('content', '')
-            if content:
-                post = {
-                    'id': len(posts) + 1,
-                    'content': content
-                }
-                posts.append(post)
-                save_posts()
-                return jsonify({'status': 'success', 'post': post}), 201
-            else:
-                return jsonify({'status': 'error', 'message': 'Content is required'}), 400
-        else:
-            return jsonify({'status': 'success', 'posts': posts})
-
-    @app.route('/api/posts/<int:post_id>', methods=['GET'])
-    @login_required
-    def get_post(post_id):
-        global posts
-        post = next((p for p in posts if p['id'] == post_id), None)
-        if post:
-            return jsonify({'status': 'success', 'post': post})
-        else:
-            return jsonify({'status': 'error', 'message': 'Post not found'}), 404
-
-    @app.route('/api/posts/search', methods=['GET'])
-    @login_required
-    def search_posts():
-        global posts
-        query = request.args.get('q', '').lower()
-        if not query:
-            return jsonify({'status': 'error', 'message': 'Query parameter q is required'}), 400
-        filtered = [p for p in posts if query in p['content'].lower()]
-        return jsonify({'status': 'success', 'posts': filtered})
-
-    @app.route('/api/albums', methods=['GET', 'POST'])
-    @login_required
-    def api_albums():
-        global albums
-        if request.method == 'POST':
-            data = request.get_json()
-            album_posts = data.get('posts', [])
-            if not album_posts or len(album_posts) == 0:
-                return jsonify({'status': 'error', 'message': 'Album must contain at least one post'}), 400
-            if len(album_posts) > 10:
-                return jsonify({'status': 'error', 'message': 'Album cannot contain more than 10 posts'}), 400
-            album_id = len(albums) + 1
-            album = {
-                'id': album_id,
-                'posts': []
-            }
-            for idx, post in enumerate(album_posts):
-                content = post.get('content', '')
-                caption = post.get('caption', '')
-                if not content:
-                    return jsonify({'status': 'error', 'message': f'Post {idx+1} content is required'}), 400
-                album['posts'].append({
-                    'id': idx + 1,
-                    'content': content,
-                    'caption': caption
-                })
-            albums.append(album)
-            return jsonify({'status': 'success', 'album': album}), 201
-        else:
-            return jsonify({'status': 'success', 'albums': albums})
-
-    @app.route('/list-static')
-    def list_static():
-        files = os.listdir(app.static_folder)
-        return jsonify({'static_files': files})
-
-    @app.route('/api/debug/albums', methods=['GET'])
-    def debug_albums():
-        global albums
-        return jsonify({'status': 'success', 'albums': albums})
+        return render_template('create_post.html')
 
     return app

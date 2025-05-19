@@ -1,5 +1,3 @@
-/* Futuristic theme with green, white, and yellow colors */
-
 :root {
     --color-bg: #ffffff;
     --color-primary: #004d00; /* dark green */
@@ -47,6 +45,12 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 2rem;
+    /* Make nav always visible */
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: none !important;
+    /* Remove any hover-based visibility toggling */
+    pointer-events: auto;
 }
 
 nav a {
@@ -359,9 +363,13 @@ footer {
 
 /* Custom styles for news hub page */
 body.news-hub {
-    background-color: #ffffff !important;
+    background-color: transparent !important;
     color: #333 !important;
     overflow-x: hidden;
+}
+
+body.news-hub nav ul {
+    justify-content: flex-end !important;
 }
 
 div[style*="display: flex; gap: 2rem; margin-bottom: 2rem; justify-content: center; align-items: flex-start;"] {
@@ -378,6 +386,7 @@ div[style*="display: flex; gap: 2rem; margin-bottom: 2rem; justify-content: cent
     border-radius: 0 !important;
     transition: box-shadow 0.3s ease !important;
     margin-left: 0 !important;
+    border-bottom: 1px solid #ccc !important;
 }
 
 #postsContainer > div:hover {
@@ -401,10 +410,137 @@ div[style*="display: flex; gap: 2rem; margin-bottom: 2rem; justify-content: cent
     margin-left: 0 !important;
 }
 
+
 #postsContainer img {
     max-width: 100%;
     height: auto;
     display: block;
     margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block !important; /* Show hamburger on mobile */
+        border: 3px solid red;
+        padding: 5px;
+        border-radius: 4px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: white;
+        z-index: 1100;
+        cursor: pointer;
+    }
+    nav {
+        background-color: white !important;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 200px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        padding-top: 60px;
+    }
+    nav.active {
+        transform: translateX(0);
+    }
+    .nav-menu {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem;
+        display: none;
+    }
+    nav.active .nav-menu {
+        display: flex;
+    }
+    .nav-menu li a {
+        color: var(--color-primary);
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .news-hub-container {
+        display: flex;
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    .posts-section {
+        flex: 3;
+        border-right: 1px solid #ccc;
+        padding-right: 1rem;
+    }
+    .search-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding-left: 1rem;
+    }
+    #searchBar {
+        width: 100%;
+        max-width: 250px;
+        margin: 0;
+    }
+}
+
+/* Desktop and larger screens */
+@media (min-width: 769px) {
+    .hamburger {
+        display: none !important;
+    }
+    nav {
+        position: static;
+        height: auto;
+        width: auto;
+        transform: none !important;
+        box-shadow: none;
+        padding-top: 0;
+        background-color: transparent !important;
+    }
+    .nav-menu {
+        flex-direction: row;
+        gap: 2rem;
+        padding: 0;
+        display: flex !important;
+    }
+    .nav-menu li a {
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+    .nav-menu li a:hover,
+    .nav-menu li a:focus {
+        color: var(--color-secondary);
+        outline: none;
+    }
+    .news-hub-container {
+        display: flex;
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    .posts-section {
+        flex: 3;
+        border-right: 1px solid #ccc;
+        padding-right: 1rem;
+    }
+    .search-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding-left: 1rem;
+    }
+    #searchBar {
+        width: 100%;
+        max-width: 250px;
+        margin: 0;
+    }
 }
 </create_file>

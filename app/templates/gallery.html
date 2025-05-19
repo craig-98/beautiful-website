@@ -6,86 +6,145 @@
   <title>Gallery</title>
   <link rel="stylesheet" href="/static/futuristic-theme.css" />
   <style>
-    /* Minimal styles for gallery page */
-    body.gallery {
-      margin: 0;
-      padding: 1rem;
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      max-width: 800px;
+      margin: 2rem auto;
     }
-    #galleryContainer {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 100%;
     }
-    .gallery-item {
-      background: white;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      padding: 1rem;
-      word-wrap: break-word;
+    .carousel-images img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      flex-shrink: 0;
     }
-    .gallery-meta {
-      font-size: 0.8rem;
-      color: #666;
-      margin-bottom: 0.5rem;
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--color-primary);
+      border: none;
+      color: var(--color-secondary);
+      font-size: 2rem;
+      padding: 0 0.5rem;
+      cursor: pointer;
+      border-radius: 50%;
+      user-select: none;
+      z-index: 10;
+    }
+    .carousel-button.prev {
+      left: 10px;
+    }
+    .carousel-button.next {
+      right: 10px;
     }
   </style>
 </head>
-<body class="gallery">
-  <main class="section">
-    <div id="galleryContainer" aria-live="polite" aria-atomic="true">
-      <!-- Gallery items will be rendered here -->
+<body>
+  <header>
+    <nav>
+      <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">&#9776;</button>
+      <ul id="nav-menu" class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/members">Members</a></li>
+        <li><a href="/news-hub">News Hub</a></li>
+        <li><a href="/gallery">Gallery</a></li>
+        <li><a href="/history">History</a></li>
+        <li><a href="/login">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Gallery</h1>
+    <div id="albumsContainer">
+      <!-- Albums will be rendered here -->
     </div>
   </main>
   <script>
-    async function fetchGallery() {
-      try {
-        const response = await fetch('/api/albums');
-        const data = await response.json();
-        if (data.status === 'success') {
-          renderGallery(data.albums);
-        } else {
-          document.getElementById('galleryContainer').innerHTML = '<p class="no-items">Failed to load gallery.</p>';
-        }
-      } catch (error) {
-        document.getElementById('galleryContainer').innerHTML = '<p class="no-items">Error loading gallery.</p>';
+    async function fetchAlbums() {
+      const res = await fetch('/api/albums');
+      const data = await res.json();
+      if (data.status !== 'success') {
+        alert('Failed to load albums: ' + data.message);
+        return [];
       }
+      return data.albums;
     }
 
-    function renderGallery(albums) {
-      const container = document.getElementById('galleryContainer');
-      container.innerHTML = '';
-      if (albums.length === 0) {
-        container.innerHTML = '<p class="no-items">No albums found.</p>';
-        return;
+    function createCarousel(album) {
+      const carousel = document.createElement('div');
+      carousel.className = 'carousel';
+
+      const imagesContainer = document.createElement('div');
+      imagesContainer.className = 'carousel-images';
+
+      album.posts.forEach(post => {
+        const img = document.createElement('img');
+        img.src = post.image_url;
+        img.alt = post.caption || 'Album image';
+        imagesContainer.appendChild(img);
+      });
+
+      carousel.appendChild(imagesContainer);
+
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'carousel-button prev';
+      prevBtn.innerHTML = '&#10094;';
+      carousel.appendChild(prevBtn);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'carousel-button next';
+      nextBtn.innerHTML = '&#10095;';
+      carousel.appendChild(nextBtn);
+
+      let currentIndex = 0;
+
+      function updateCarousel() {
+        const width = imagesContainer.clientWidth;
+        imagesContainer.style.transform = `translateX(-${currentIndex * width}px)`;
       }
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + album.posts.length) % album.posts.length;
+        updateCarousel();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % album.posts.length;
+        updateCarousel();
+      });
+
+      window.addEventListener('resize', updateCarousel);
+
+      return carousel;
+    }
+
+    async function renderAlbums() {
+      const albums = await fetchAlbums();
+      const container = document.getElementById('albumsContainer');
+      container.innerHTML = '';
       albums.forEach(album => {
         const albumDiv = document.createElement('div');
-        albumDiv.className = 'gallery-item';
+        albumDiv.className = 'album';
 
-        const albumMeta = document.createElement('div');
-        albumMeta.className = 'gallery-meta';
-        albumMeta.textContent = `Album ID: ${album.id}`;
-        albumDiv.appendChild(albumMeta);
+        const header = document.createElement('h2');
+        header.className = 'album-header';
+        header.textContent = `Album ${album.id}`;
+        albumDiv.appendChild(header);
 
-        album.posts.forEach(post => {
-          const postContent = document.createElement('p');
-          postContent.innerHTML = post.content;
-          albumDiv.appendChild(postContent);
-          if (post.caption) {
-            const caption = document.createElement('p');
-            caption.style.fontStyle = 'italic';
-            caption.textContent = post.caption;
-            albumDiv.appendChild(caption);
-          }
-        });
+        const carousel = createCarousel(album);
+        albumDiv.appendChild(carousel);
 
         container.appendChild(albumDiv);
       });
     }
 
-    window.addEventListener('DOMContentLoaded', fetchGallery);
+    renderAlbums();
   </script>
 </body>
 </html>
