@@ -116,10 +116,14 @@ def create_app(test_config=None):
     def serve_register():
         return render_template('register.html')
 
-    @app.route('/logout')
-    def logout():
-        session.pop('username', None)
-        return redirect(url_for('serve_home'))
+    @app.route('/create-album')
+    @login_required
+    def serve_create_album():
+        return render_template('create_album.html')
+
+    @app.route('/gallery')
+    def gallery():
+        return render_template('gallery.html')
 
     @app.route('/api/register', methods=['POST'])
     def api_register():
@@ -160,6 +164,69 @@ def create_app(test_config=None):
             return jsonify({'status': 'success', 'authenticated': True, 'username': session['username']})
         else:
             return jsonify({'status': 'success', 'authenticated': False})
+
+    @app.route('/api/upload-image', methods=['POST'])
+    @login_required
+    def api_upload_image():
+        if 'image' not in request.files:
+            return jsonify({'status': 'error', 'message': 'No image file provided'}), 400
+        image = request.files['image']
+        if image.filename == '':
+            return jsonify({'status': 'error', 'message': 'Empty filename'}), 400
+        # Save image to static/uploads
+        upload_folder = os.path.join(app.static_folder, 'uploads')
+        os.makedirs(upload_folder, exist_ok=True)
+        filename = image.filename
+        filepath = os.path.join(upload_folder, filename)
+        # To avoid overwriting, add a suffix if file exists
+        base, ext = os.path.splitext(filename)
+        counter = 1
+        while os.path.exists(filepath):
+            filename = f"{base}_{counter}{ext}"
+            filepath = os.path.join(upload_folder, filename)
+            counter += 1
+        image.save(filepath)
+        url = f"/static/uploads/{filename}"
+        return jsonify({'status': 'success', 'url': url})
+
+    @app.route('/api/albums', methods=['GET'])
+    def api_get_albums():
+        albums_file = os.path.join(app.instance_path, 'albums.json')
+        if os.path.exists(albums_file):
+            with open(albums_file, 'r', encoding='utf-8') as f:
+                try:
+                    albums = json.load(f)
+                except json.JSONDecodeError:
+                    albums = []
+        else:
+            albums = []
+        return jsonify({'status': 'success', 'albums': albums})
+
+    @app.route('/api/albums', methods=['POST'])
+    @login_required
+    def api_create_album():
+        data = request.get_json()
+        posts_data = data.get('posts', [])
+        if not posts_data:
+            return jsonify({'status': 'error', 'message': 'No posts data provided'}), 400
+        albums_file = os.path.join(app.instance_path, 'albums.json')
+        if os.path.exists(albums_file):
+            with open(albums_file, 'r', encoding='utf-8') as f:
+                try:
+                    albums = json.load(f)
+                except json.JSONDecodeError:
+                    albums = []
+        else:
+            albums = []
+        new_album_id = max([album.get('id', 0) for album in albums], default=0) + 1
+        new_album = {
+            'id': new_album_id,
+            'posts': posts_data
+        }
+        albums.append(new_album)
+        with open(albums_file, 'w', encoding='utf-8') as f:
+            json.dump(albums, f, ensure_ascii=False, indent=2)
+        return jsonify({'status': 'success', 'message': 'Album created successfully', 'album_id': new_album_id})
 
     @app.route('/create-post')
     @login_required
