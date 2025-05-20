@@ -233,4 +233,42 @@ def create_app(test_config=None):
     def serve_create_post():
         return render_template('create_post.html')
 
+    @app.route('/api/posts', methods=['POST'])
+    @login_required
+    def api_create_post():
+        import datetime
+        data = request.get_json()
+        title = data.get('title', '').strip()
+        content = data.get('content', '').strip()
+        if not title or not content:
+            return jsonify({'status': 'error', 'message': 'Title and content are required'}), 400
+        new_post_id = max([post.get('id', 0) for post in posts], default=0) + 1
+        new_post = {
+            'id': new_post_id,
+            'title': title,
+            'content': content,
+            'author': session.get('username'),
+            'published_at': datetime.datetime.utcnow().isoformat() + 'Z'
+        }
+        posts.append(new_post)
+        save_posts()
+        return jsonify({'status': 'success', 'message': 'Post created successfully', 'post_id': new_post_id})
+
+    @app.route('/api/posts', methods=['GET'])
+    def api_get_posts():
+        return jsonify({'status': 'success', 'posts': posts})
+
+    @app.route('/api/public/posts', methods=['GET'])
+    def api_public_get_posts():
+        public_posts = []
+        for post in posts:
+            public_posts.append({
+                'id': post.get('id'),
+                'title': post.get('title'),
+                'content': post.get('content'),
+                'username': post.get('author'),
+                'published_at': post.get('published_at')
+            })
+        return jsonify({'status': 'success', 'posts': public_posts})
+
     return app

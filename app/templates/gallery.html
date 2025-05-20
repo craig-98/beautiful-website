@@ -9,8 +9,10 @@
     .carousel {
       position: relative;
       overflow: hidden;
-      max-width: 800px;
-      margin: 2rem auto;
+      max-width: 600px;
+      margin: 1rem auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     .carousel-images {
       display: flex;
@@ -19,9 +21,10 @@
     }
     .carousel-images img {
       width: 100%;
-      max-height: 400px;
+      max-height: 300px;
       object-fit: cover;
       flex-shrink: 0;
+      border-radius: 8px;
     }
     .carousel-button {
       position: absolute;
@@ -30,7 +33,7 @@
       background-color: var(--color-primary);
       border: none;
       color: var(--color-secondary);
-      font-size: 2rem;
+      font-size: 1.5rem;
       padding: 0 0.5rem;
       cursor: pointer;
       border-radius: 50%;
@@ -55,13 +58,13 @@
         <li><a href="/news-hub">News Hub</a></li>
         <li><a href="/gallery">Gallery</a></li>
         <li><a href="/history">History</a></li>
-        <li><a href="/login">Login</a></li>
+
       </ul>
     </nav>
   </header>
   <main>
-    <h1>Gallery</h1>
-    <div id="albumsContainer">
+    <h1 style="text-align: center;">Gallery</h1>
+    <div id="albumsContainer" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
       <!-- Albums will be rendered here -->
     </div>
   </main>
@@ -131,10 +134,27 @@
       albums.forEach(album => {
         const albumDiv = document.createElement('div');
         albumDiv.className = 'album';
+        albumDiv.style.width = '220px';
+        albumDiv.style.border = '1px solid #ccc';
+        albumDiv.style.borderRadius = '8px';
+        albumDiv.style.padding = '8px';
+        albumDiv.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+        albumDiv.style.transition = 'transform 0.2s';
+        albumDiv.style.backgroundColor = '#fff';
 
         const header = document.createElement('h2');
         header.className = 'album-header';
-        header.textContent = `Album ${album.id}`;
+        header.style.fontSize = '1.2rem';
+        header.style.marginTop = '6px';
+        header.style.marginBottom = '4px';
+        header.style.textAlign = 'center';
+        header.style.color = '#222';
+        header.style.fontWeight = 'bold';
+        header.style.backgroundColor = '';
+        header.style.padding = '';
+        header.style.borderRadius = '';
+        header.style.color = '#000000';
+        header.textContent = album.posts.length > 0 ? album.posts[0].author : `Album ${album.id}`;
         albumDiv.appendChild(header);
 
         const carousel = createCarousel(album);
