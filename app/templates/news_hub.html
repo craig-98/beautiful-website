@@ -10,16 +10,7 @@
 </head>
 <body>
   <header>
-    <nav>
-      <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">&#9776;</button>
-      <ul id="nav-menu" class="nav-menu">
-        <li><a href="/">Home</a></li>
-        <li><a href="/members">Members</a></li>
-        <li><a href="/news-hub">News Hub</a></li>
-        <li><a href="/gallery">Gallery</a></li>
-        <li><a href="/history">History</a></li>
-      </ul>
-    </nav>
+    {% include '_header.html' %}
   </header>
   <div class="news-hub-container">
     <div class="posts-section">
@@ -28,7 +19,12 @@
   </div>
     </div>
     <aside class="search-section">
-      <input type="text" id="searchBar" placeholder="Search posts..." aria-label="Search posts" class="search-bar" />
+      <div style="position: relative;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="position: absolute; top: 50%; left: 8px; transform: translateY(-50%); pointer-events: none; color: #666;">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242 1.106a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+        </svg>
+        <input type="text" id="searchBar" placeholder="Search posts..." aria-label="Search posts" class="search-bar" style="padding-left: 30px;" />
+      </div>
       <div id="googleAds">Google Ads Placeholder</div>
     </aside>
   </div>

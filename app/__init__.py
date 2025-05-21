@@ -108,6 +108,10 @@ def create_app(test_config=None):
     def members():
         return render_template('members.html')
 
+    @app.route('/services')
+    def services():
+        return render_template('services.html')
+
     @app.route('/login', methods=['GET'])
     def serve_login():
         return render_template('login.html')

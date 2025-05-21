@@ -88,18 +88,36 @@
 <body>
     <header>History of Orumba North</header>
     <main>
-        <button class="collapsible">Overview</button>
-        <div class="content">
+        <button class="collapsible" aria-expanded="false" aria-controls="content-overview">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 6px; transition: transform 0.3s ease;" class="collapsible-icon">
+                <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5z"/>
+                <path fill-rule="evenodd" d="M8 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-1 0v-12a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+            Overview
+        </button>
+        <div class="content" id="content-overview">
             <p>Orumba North is a Local Government Area in Anambra State, East-central Nigeria. It is known for its rich cultural heritage and vibrant communities.</p>
         </div>
 
-        <button class="collapsible">Historical Background</button>
-        <div class="content">
+        <button class="collapsible" aria-expanded="false" aria-controls="content-historical-background">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 6px; transition: transform 0.3s ease;" class="collapsible-icon">
+                <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5z"/>
+                <path fill-rule="evenodd" d="M8 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-1 0v-12a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+            Historical Background
+        </button>
+        <div class="content" id="content-historical-background">
             <p>The area has a long history dating back to pre-colonial times, with indigenous peoples who have maintained their traditions and customs through generations. The region played a role in the socio-political development of Anambra State and Nigeria as a whole.</p>
         </div>
 
-        <button class="collapsible">Culture and Traditions</button>
-        <div class="content">
+        <button class="collapsible" aria-expanded="false" aria-controls="content-culture-traditions">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 6px; transition: transform 0.3s ease;" class="collapsible-icon">
+                <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5z"/>
+                <path fill-rule="evenodd" d="M8 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-1 0v-12a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+            Culture and Traditions
+        </button>
+        <div class="content" id="content-culture-traditions">
             <p>Orumba North is home to various festivals, traditional dances, and crafts that reflect the identity of its people. The community values its heritage and continues to celebrate its history through annual events and ceremonies.</p>
         </div>
 
@@ -108,8 +126,14 @@
             <p>Flag of Anambra State</p>
         </div>
 
-        <button class="collapsible">Geography and Economy</button>
-        <div class="content">
+        <button class="collapsible" aria-expanded="false" aria-controls="content-geography-economy">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 6px; transition: transform 0.3s ease;" class="collapsible-icon">
+                <path fill-rule="evenodd" d="M1.5 8a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 0 1h-12a.5.5 0 0 1-.5-.5z"/>
+                <path fill-rule="evenodd" d="M8 1.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-1 0v-12a.5.5 0 0 1 .5-.5z"/>
+            </svg>
+            Geography and Economy
+        </button>
+        <div class="content" id="content-geography-economy">
             <p>The geography of Orumba North includes fertile lands that support agriculture, which is a major economic activity. The area also benefits from trade and small-scale industries that contribute to its growth.</p>
         </div>
 
@@ -126,6 +150,16 @@
         collapsibles.forEach(button => {
             button.addEventListener('click', () => {
                 button.classList.toggle('active');
+                const icon = button.querySelector('.collapsible-icon');
+                if (icon) {
+                    if (button.classList.contains('active')) {
+                        icon.style.transform = 'rotate(45deg)';
+                        button.setAttribute('aria-expanded', 'true');
+                    } else {
+                        icon.style.transform = 'rotate(0deg)';
+                        button.setAttribute('aria-expanded', 'false');
+                    }
+                }
                 const content = button.nextElementSibling;
                 if (content.style.maxHeight) {
                     content.style.maxHeight = null;
