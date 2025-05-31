@@ -45,9 +45,15 @@ nav ul {
     list-style: none;
     display: flex;
     gap: 2rem;
+<<<<<<< HEAD
     /* Remove forced visibility to allow hamburger toggle */
     /* opacity: 1 !important; */
     /* visibility: visible !important; */
+=======
+    /* Make nav always visible */
+    opacity: 1 !important;
+    visibility: visible !important;
+>>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)
     transition: none !important;
     /* Remove any hover-based visibility toggling */
     pointer-events: auto;
@@ -307,10 +313,13 @@ footer {
     .carousel-images img {
         max-height: 350px;
     }
+<<<<<<< HEAD
     button, .carousel-button {
         font-size: 1.8rem;
         padding: 0 0.4rem;
     }
+=======
+>>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)
 }
 
 @media (max-width: 768px) {
@@ -337,6 +346,7 @@ footer {
         font-size: 1.8rem;
         padding: 0 0.4rem;
     }
+<<<<<<< HEAD
     /* Hide nav ul by default on mobile */
     nav ul {
         display: none;
@@ -368,6 +378,8 @@ footer {
         box-shadow: -2px 0 10px rgba(0,0,0,0.1) !important;
         z-index: 1000 !important;
     }
+=======
+>>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)
 }
 
 @media (max-width: 480px) {
@@ -396,6 +408,7 @@ footer {
     }
 }
 
+<<<<<<< HEAD
 /* Custom styles to fix hamburger menu on members page */
 @media (max-width: 768px) {
     /* Ensure hamburger is fixed at top right */
@@ -418,3 +431,185 @@ footer {
         box-shadow: -3px 0 12px rgba(0,0,0,0.2) !important;
     }
 }
+=======
+/* Custom styles for news hub page */
+body.news-hub {
+    background-color: transparent !important;
+    color: #333 !important;
+    overflow-x: hidden;
+}
+
+body.news-hub nav ul {
+    justify-content: flex-end !important;
+}
+
+div[style*="display: flex; gap: 2rem; margin-bottom: 2rem; justify-content: center; align-items: flex-start;"] {
+    justify-content: flex-start !important;
+    gap: 2rem !important;
+}
+
+#postsContainer > div {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-left: none !important;
+    padding: 1.5rem 2rem !important;
+    margin-bottom: 1.5rem !important;
+    border-radius: 0 !important;
+    transition: box-shadow 0.3s ease !important;
+    margin-left: 0 !important;
+    border-bottom: 1px solid #ccc !important;
+}
+
+#postsContainer > div:hover {
+    box-shadow: none !important;
+}
+
+#searchBar {
+    width: 320px !important;
+    margin-left: -20px !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 1.1rem !important;
+    border-radius: 8px !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    background-color: #fff !important;
+    color: #333 !important;
+}
+
+#postsContainer {
+    max-width: 720px !important;
+    margin-left: 0 !important;
+}
+
+
+#postsContainer img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: block !important; /* Show hamburger on mobile */
+        border: 3px solid red;
+        padding: 5px;
+        border-radius: 4px;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: white;
+        z-index: 1100;
+        cursor: pointer;
+    }
+    nav {
+        background-color: white !important;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 200px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        padding-top: 60px;
+    }
+    nav.active {
+        transform: translateX(0);
+    }
+    nav#nav-menu ul {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem;
+        display: none;
+    }
+    nav#nav-menu.active ul {
+        display: flex;
+    }
+    .nav-menu li a {
+        color: var(--color-primary);
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .news-hub-container {
+        display: flex;
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        flex-direction: row;
+    }
+    .posts-section {
+        flex: 0 0 65%;
+        border-right: none;
+        padding-right: 0;
+    }
+    .search-section {
+        flex: 0 0 35%;
+        padding-left: 0;
+    }
+    #searchBar {
+        width: 100%;
+        max-width: 250px;
+        margin: 0;
+    }
+}
+
+/* Desktop and larger screens */
+@media (min-width: 769px) {
+    .hamburger {
+        display: none !important;
+    }
+    nav {
+        position: static;
+        height: auto;
+        width: auto;
+        transform: none !important;
+        box-shadow: none;
+        padding-top: 0;
+        background-color: transparent !important;
+    }
+    .nav-menu {
+        flex-direction: row;
+        gap: 2rem;
+        padding: 0;
+        display: flex !important;
+    }
+    .nav-menu li a {
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+    .nav-menu li a:hover,
+    .nav-menu li a:focus {
+        color: var(--color-secondary);
+        outline: none;
+    }
+    .news-hub-container {
+        display: flex;
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    .posts-section {
+        flex: 3;
+        border-right: 1px solid #ccc;
+        padding-right: 1rem;
+    }
+    .search-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding-left: 1rem;
+    }
+    #searchBar {
+        width: 100%;
+        max-width: 250px;
+        margin: 0;
+    }
+}
+</create_file>
+>>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)

@@ -3,7 +3,11 @@
         <img src="/static/images/orumba-north-logo.jpg" alt="Orumba North Logo" style="height: 120px; width: 120px; border-radius: 50%; vertical-align: middle; margin-right: 12px; object-fit: cover;" />
         Orumba North
     </div>
+<<<<<<< HEAD
     <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu" onclick="toggleMenu()">
+=======
+    <button id="hamburger-btn" class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+>>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)
         <svg width="30" height="30" viewBox="0 0 100 80" fill="#ffdd57" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <rect width="100" height="15"></rect>
             <rect y="30" width="100" height="15"></rect>
@@ -113,6 +117,7 @@
         </ul>
     </nav>
 </header>
+<<<<<<< HEAD
 <script>
     // Hamburger menu toggle
     function toggleMenu() {
@@ -129,6 +134,25 @@
         hamburger.setAttribute('aria-expanded', false);
         nav.classList.remove('active');
     }
+=======
+    <script>
+     // Hamburger menu toggle
+     document.getElementById('hamburger-btn').addEventListener('click', function(event) {
+         event.stopPropagation();
+         const nav = document.getElementById('nav-menu');
+         const hamburger = document.getElementById('hamburger-btn');
+         const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+         hamburger.setAttribute('aria-expanded', !expanded);
+         nav.classList.toggle('active');
+     });
+     // Close menu when clicking a link (for better UX)
+     function closeMenu() {
+         const nav = document.getElementById('nav-menu');
+         const hamburger = document.getElementById('hamburger-btn');
+         hamburger.setAttribute('aria-expanded', false);
+         nav.classList.remove('active');
+     }
+>>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)
             async function checkAuth() {
                 try {
                     const response = await fetch('/api/check-auth');
