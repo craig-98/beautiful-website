@@ -1,13 +1,8 @@
 <header>
-    <div class="logo" tabindex="0" aria-label="Orumba North Logo">
-        <img src="/static/images/orumba-north-logo.jpg" alt="Orumba North Logo" style="height: 120px; width: 120px; border-radius: 50%; vertical-align: middle; margin-right: 12px; object-fit: cover;" />
-        Orumba North
-    </div>
-<<<<<<< HEAD
-    <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu" onclick="toggleMenu()">
-=======
+    <a href="/" class="logo-link" aria-label="Homepage">
+        <img src="/static/images/orumba-north-logo.jpg" alt="Orumba North Logo" class="logo-image"  />
+    </a>
     <button id="hamburger-btn" class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
->>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)
         <svg width="30" height="30" viewBox="0 0 100 80" fill="#ffdd57" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <rect width="100" height="15"></rect>
             <rect y="30" width="100" height="15"></rect>
@@ -64,14 +59,12 @@
                 </svg>
                 History
             </a></li>
-            <!-- Gallery link removed -->
             <li id="nav-create-post" style="display:none;"><a href="/create-post" onclick="closeMenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffdd57" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 6px;">
                     <path d="M15.854.146a.5.5 0 0 0-.707 0L.146 15.146a.5.5 0 0 0 .707.708L6 11.207V14.5a.5.5 0 0 0 1 0v-3.293l5.146 5.147a.5.5 0 0 0 .708-.707L6.707 10.5H14.5a.5.5 0 0 0 0-1H6.707l9.147-9.146a.5.5 0 0 0 0-.708z"/>
                 </svg>
                 Create Post
             </a></li>
-            <!-- Removed always visible Create Album link -->
             <li id="nav-create-album" style="display:none;"><a href="/create-album" onclick="closeMenu()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffdd57" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="vertical-align: middle; margin-right: 6px;">
                     <path d="M4 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H9.5L7 1H4zm3 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -117,63 +110,44 @@
         </ul>
     </nav>
 </header>
-<<<<<<< HEAD
 <script>
     // Hamburger menu toggle
-    function toggleMenu() {
+    document.getElementById('hamburger-btn').addEventListener('click', function(event) {
+        event.stopPropagation();
         const nav = document.getElementById('nav-menu');
-        const hamburger = document.querySelector('.hamburger');
+        const hamburger = document.getElementById('hamburger-btn');
         const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
         hamburger.setAttribute('aria-expanded', !expanded);
         nav.classList.toggle('active');
-    }
+    });
     // Close menu when clicking a link (for better UX)
     function closeMenu() {
         const nav = document.getElementById('nav-menu');
-        const hamburger = document.querySelector('.hamburger');
+        const hamburger = document.getElementById('hamburger-btn');
         hamburger.setAttribute('aria-expanded', false);
         nav.classList.remove('active');
     }
-=======
-    <script>
-     // Hamburger menu toggle
-     document.getElementById('hamburger-btn').addEventListener('click', function(event) {
-         event.stopPropagation();
-         const nav = document.getElementById('nav-menu');
-         const hamburger = document.getElementById('hamburger-btn');
-         const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
-         hamburger.setAttribute('aria-expanded', !expanded);
-         nav.classList.toggle('active');
-     });
-     // Close menu when clicking a link (for better UX)
-     function closeMenu() {
-         const nav = document.getElementById('nav-menu');
-         const hamburger = document.getElementById('hamburger-btn');
-         hamburger.setAttribute('aria-expanded', false);
-         nav.classList.remove('active');
-     }
->>>>>>> bce8d03 (Initial commit with hamburger menu fixes and news hub layout updates)
-            async function checkAuth() {
-                try {
-                    const response = await fetch('/api/check-auth');
-                    const data = await response.json();
-                    if (data.authenticated) {
-                        document.getElementById('nav-create-post').style.display = 'list-item';
-                        document.getElementById('nav-create-album').style.display = 'list-item';
-                        document.getElementById('nav-login').style.display = 'none';
-                        document.getElementById('nav-register').style.display = 'none';
-                        document.getElementById('nav-logout').style.display = 'list-item';
-                    } else {
-                        document.getElementById('nav-create-post').style.display = 'none';
-                        document.getElementById('nav-create-album').style.display = 'none';
-                        document.getElementById('nav-login').style.display = 'list-item';
-                        document.getElementById('nav-register').style.display = 'list-item';
-                        document.getElementById('nav-logout').style.display = 'none';
-                    }
-                } catch (error) {
-                    console.error('Error checking auth status:', error);
-                }
+    async function checkAuth() {
+        try {
+            const response = await fetch('/api/check-auth');
+            const data = await response.json();
+            if (data.authenticated) {
+                document.getElementById('nav-create-post').style.display = 'list-item';
+                document.getElementById('nav-create-album').style.display = 'list-item';
+                document.getElementById('nav-login').style.display = 'none';
+                document.getElementById('nav-register').style.display = 'none';
+                document.getElementById('nav-logout').style.display = 'list-item';
+            } else {
+                document.getElementById('nav-create-post').style.display = 'none';
+                document.getElementById('nav-create-album').style.display = 'none';
+                document.getElementById('nav-login').style.display = 'list-item';
+                document.getElementById('nav-register').style.display = 'list-item';
+                document.getElementById('nav-logout').style.display = 'none';
             }
+        } catch (error) {
+            console.error('Error checking auth status:', error);
+        }
+    }
     async function logout() {
         try {
             const response = await fetch('/api/logout', { method: 'POST' });
