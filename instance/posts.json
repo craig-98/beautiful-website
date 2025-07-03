@@ -9,5 +9,12 @@
     "content": "<p>Error creating post: SyntaxError: Unexpected token '&lt;', \"&lt;!doctype \"... is not valid JSON</p><p><br></p>",
     "author": "Ken",
     "published_at": "2025-05-20T01:35:24.940715Z"
+  },
+  {
+    "id": 3,
+    "title": "Test Post Authenticated",
+    "content": "This is a test post content with authentication.",
+    "author": "testuser",
+    "published_at": "2025-06-19T04:56:49.165779Z"
   }
 ]
