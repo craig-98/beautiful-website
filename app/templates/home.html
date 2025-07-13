@@ -178,54 +178,11 @@
                 <p>Experience the vibrant traditions, festivals, and history that make Orumba North unique.</p>
             </div>
         </section>
-        <section id="posts" class="posts" aria-label="Latest Posts section" style="background:#ffffff; padding: 2rem;">
-            <h2 style="color:#004d00; text-align:center; margin-bottom:1rem;">Latest Posts</h2>
-            <div id="posts-container" style="max-width:900px; margin:0 auto; display:grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+        <section id="posts" class="posts latest-posts-section" aria-label="Latest Posts section">
+            <h2 class="latest-posts-title">Latest Posts</h2>
+            <div id="posts-container" class="posts-container-grid">
                 <!-- Post snippets will be dynamically inserted here -->
             </div>
-            <style>
-            #posts-container {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-                max-width: 900px;
-                margin: 0 auto;
-            }
-            #posts-container > div {
-                background-color: #004d00;
-                padding: 1rem 1.5rem;
-                border-radius: 16px;
-                color: #ffffff;
-                box-shadow: 0 6px 20px rgba(0, 77, 0, 0.7);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                font-size: 1rem;
-                line-height: 1.4;
-                border-left: 6px solid #ffff00;
-                cursor: pointer;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                text-align: left;
-                height: auto;
-            }
-            #posts-container > div:hover,
-            #posts-container > div:focus {
-                transform: translateY(-10px);
-                box-shadow: 0 12px 40px #ffff00cc;
-                outline: none;
-            }
-            #posts-container > div p {
-                margin: 0.5rem 0 0 0;
-            }
-            #posts-container > div .post-meta {
-                font-size: 0.85rem;
-                color: #ffff00;
-                font-weight: 600;
-                margin-bottom: 0.5rem;
-            }
-            </style>
             <script>
                 async function fetchLatestPostSnippets() {
                     try {
