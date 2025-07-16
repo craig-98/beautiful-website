@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request, jsonify, send_file, session, redirect, url_for
+ from flask import Flask, send_from_directory, request, jsonify, send_file, session, redirect, url_for
 import os
 import json
 import hashlib
@@ -87,7 +87,7 @@ HTML_DIR = os.path.join(BASE_DIR, 'beautiful_website')
 
 @app.route('/')
 def serve_home():
-    return send_file(os.path.join(BASE_DIR, 'home.html'))
+    return send_file(os.path.join(HTML_DIR, 'home.html'))
 
 @app.route('/login', methods=['GET'])
 def serve_login():
@@ -245,7 +245,7 @@ def serve_gallery():
 
 @app.route('/members')
 def serve_members():
-    return send_file(os.path.join(BASE_DIR, 'members.html'))
+    return send_file(os.path.join(HTML_DIR, 'members.html'))
 
 @app.route('/news-hub')
 def serve_news_hub():
