@@ -1,10 +1,10 @@
- from flask import Flask, send_from_directory, request, jsonify, send_file, session, redirect, url_for
+from flask import Flask, send_from_directory, request, jsonify, send_file, session, redirect, url_for, render_template
 import os
 import json
 import hashlib
 from functools import wraps
 
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'), static_url_path='/static')
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'), static_url_path='/static', template_folder='app/templates')
 app.secret_key = 'your_secret_key_here'  # Change this to a secure random key in production
 
 posts = []
@@ -83,11 +83,11 @@ albums = []
 #     })
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-HTML_DIR = os.path.join(BASE_DIR, 'beautiful_website')
+# HTML_DIR = os.path.join(BASE_DIR, 'beautiful_website')
 
 @app.route('/')
 def serve_home():
-    return send_file(os.path.join(HTML_DIR, 'home.html'))
+    return render_template('home.html')
 
 @app.route('/login', methods=['GET'])
 def serve_login():
