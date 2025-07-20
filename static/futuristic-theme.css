@@ -1,5 +1,5 @@
 :root {
-    --color-bg: #ffffff;
+    --color-bg: #d3d3d3;
     --color-primary: #004d00; /* dark green */
     --color-secondary: #ffff00; /* yellow */
     --color-accent: #66ff66; /* light green */
@@ -17,7 +17,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: red;
+    background-color: grey;
     color: var(--color-text);
     line-height: 1.6;
     min-height: 100vh;
@@ -262,16 +262,23 @@ footer {
 .album {
     margin: 2rem auto;
     max-width: 800px;
-    background-color: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 1rem;
+    background: linear-gradient(135deg, #a8e063, #56ab2f);
+    border-radius: 15px !important;
+    box-shadow: 0 8px 20px rgba(86, 171, 47, 0.6);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+.album:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(86, 171, 47, 0.9);
 }
 .album-header {
     font-weight: 700;
     color: var(--color-secondary);
     margin-bottom: 1rem;
     font-size: 1.2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 .carousel {
     position: relative;
