@@ -280,6 +280,58 @@ footer {
     font-size: 1.2rem;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
+
+/* Latest Posts section styling */
+.latest-posts-section {
+    background: linear-gradient(135deg, #004d00 0%, #66ff66 100%);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 77, 0, 0.6);
+    padding: 2rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    color: white;
+}
+.latest-posts-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 1px 1px 3px #003300;
+}
+.posts-container-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+.posts-container-grid > div {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 77, 0, 0.3);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.posts-container-grid > div:hover,
+.posts-container-grid > div:focus {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px #ffff00cc;
+    background-color: rgba(255, 255, 255, 0.25);
+    outline: none;
+}
+.posts-container-grid h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.posts-container-grid .post-meta {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    color: #ccffcc;
+    text-shadow: 1px 1px 2px #004d00;
+}
+.posts-container-grid p {
+    font-size: 1rem;
+    line-height: 1.4;
+}
 .carousel {
     position: relative;
     overflow: hidden;
